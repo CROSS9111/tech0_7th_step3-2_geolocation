@@ -7,7 +7,7 @@ import LocationButton from '../../../components/buttons/LocationButton';
 import LocationDisplay from '../../../components/location/LocationDisplay';
 
 
-const page = () => {
+const Page = () => {
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const [watchId, setWatchId] = useState(null);
@@ -51,4 +51,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
