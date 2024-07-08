@@ -1,16 +1,11 @@
 import React from 'react';
 
-const LocationButton = ({ onClick }) => {
+const LocationButton = ({ label, onClick }) => {
   return (
-    <div>
-    <button
-      onClick={onClick}
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-lg border-2 border-white hover:border-gray-300"
-    >
-      現在位置を取得する
+    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-lg border-2 border-white hover:border-gray-300" onClick={onClick}>
+      {label}
     </button>
-  </div>
-  )
+  );
 }
 
 export default LocationButton;

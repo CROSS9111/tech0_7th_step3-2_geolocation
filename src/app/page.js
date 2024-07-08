@@ -25,11 +25,16 @@ export default function Home() {
       console.error("Geolocation is not supported by this browser.");
     }
   };
+
+
+
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col items-center justify-start mt-0">
-    <h1 className="text-3xl font-semibold text-gray-900 my-4">現在位置取得アプリ</h1>
-    <LocationButton onClick={getLocation} />
-    <LocationDisplay latitude={latitude} longitude={longitude} />
-  </div>
+      <h1 className="text-3xl font-semibold text-gray-900 my-4">現在位置取得アプリ</h1>
+      <LocationButton label={"位置情報取得"} onClick={getLocation} />
+      {/* <LocationButton label={"監視開始"} onClick={startWatching} />
+      <LocationButton label={"監視停止"} onClick={stopWatching} /> */}
+      <LocationDisplay latitude={latitude} longitude={longitude} />
+    </div>
   );
 }
