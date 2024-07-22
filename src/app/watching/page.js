@@ -2,6 +2,13 @@
 
 import Image from "next/image";
 import { useState,useEffect } from 'react';
+import dynamic from 'next/dynamic';
+// import L from 'leaflet';
+import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
+import * as L from 'leaflet';
+import 'leaflet-defaulticon-compatibility';
 import Head from 'next/head';
 import LocationButton from '../../../components/buttons/LocationButton';
 import LocationDisplay from '../../../components/location/LocationDisplay';
@@ -13,29 +20,7 @@ const Page = () => {
     const [watchId, setWatchId] = useState(null);
     const [updateCount, setUpdateCount] = useState(0);
     const [userName, setUserName] = useState("");
-
-    const sendDataToBackend = (userName, latitude, longitude) => {
-        fetch('/api/location', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                userName,
-                latitude,
-                longitude
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    };
-
-    
+    const [positions, setPositions] = useState([]);
 
     const startWatching = () => {
         if (navigator.geolocation) {
@@ -55,8 +40,6 @@ const Page = () => {
             }
             );
             setWatchId(id);
-            console.log(watchId)
-            console.log(latitude)
         } else {
             console.error("Geolocation is not supported by this browser.");
         }
@@ -100,6 +83,7 @@ const Page = () => {
     
                     const data = await response.json();
                     console.log('Success:', data);
+                    setPositions(data.map(item => [item.latitude, item.longitude]));
                 } catch (error) {
                     console.error('Error:', error);
                 }
@@ -134,6 +118,15 @@ const Page = () => {
             />
             <LocationDisplay latitude={latitude} longitude={longitude} />
             <p className="text-lg text-gray-700 mt-3">更新回数: {updateCount}</p>
+            <MapContainer center={[latitude || 34.7185884, longitude || 137.854006]} zoom={15} style={{ height: "400px", width: "100%" }}>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    {positions.map((position, index) => (
+                        <Marker key={index} position={position}></Marker>
+                    ))}
+                    {positions.length > 1 && <Polyline positions={positions} color="blue" />}
+            </MapContainer>
             </div>
         )
 }
