@@ -1,10 +1,11 @@
 "use client"
 
 import Image from "next/image";
-import { GoogleMapsEmbed } from '@next/third-parties/google'
+// import { GoogleMapsEmbed } from '@next/third-parties/google'
 import { useState,useEffect,useRef } from 'react';
 import LocationButton from '../../../components/buttons/LocationButton';
 import LocationDisplay from '../../../components/location/LocationDisplay';
+import Map from "../../../components/map/map"
 
 
 
@@ -117,13 +118,14 @@ const Page = () => {
                 />
                 <LocationDisplay latitude={latitude} longitude={longitude} />
                 <p className="text-lg text-gray-700 mt-3">更新回数: {updateCount}</p>
-                <GoogleMapsEmbed
+                <Map  positions={positions} />
+                {/* <GoogleMapsEmbed
                     apiKey={googleMapsApiKey}
                     height="100%"
                     width="100%"
                     mode="place"
                     q="Brooklyn+Bridge,New+York,NY"
-                    />
+                    /> */}
             </div>
         )
 }
