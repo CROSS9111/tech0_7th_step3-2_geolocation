@@ -7,8 +7,6 @@ import LocationButton from '../../../components/buttons/LocationButton';
 import LocationDisplay from '../../../components/location/LocationDisplay';
 import Map from "../../../components/map/map"
 
-
-
 const Page = () => {
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);

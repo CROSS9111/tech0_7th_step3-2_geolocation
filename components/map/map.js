@@ -11,7 +11,7 @@ const center = {
     lng: 137.7348,
 };
 
-const zoom = 12;
+const zoom = 13;
 
 const Map = ({ positions }) => {
     const [map, setMap] = useState(null);
