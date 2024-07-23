@@ -1,17 +1,11 @@
 "use client"
 
 import Image from "next/image";
-import { useState,useEffect } from 'react';
-import dynamic from 'next/dynamic';
-// import L from 'leaflet';
-import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
-import * as L from 'leaflet';
-import 'leaflet-defaulticon-compatibility';
-import Head from 'next/head';
+import { GoogleMapsEmbed } from '@next/third-parties/google'
+import { useState,useEffect,useRef } from 'react';
 import LocationButton from '../../../components/buttons/LocationButton';
 import LocationDisplay from '../../../components/location/LocationDisplay';
+
 
 
 const Page = () => {
@@ -21,6 +15,9 @@ const Page = () => {
     const [updateCount, setUpdateCount] = useState(0);
     const [userName, setUserName] = useState("");
     const [positions, setPositions] = useState([]);
+
+    const mapRef = useRef(null);
+    const [map, setMap] = useState(null);
 
     const startWatching = () => {
         if (navigator.geolocation) {
@@ -95,38 +92,38 @@ const Page = () => {
             }
         }, [updateCount]);
 
+        const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY;
+
 
         return (
             <div className="bg-gray-50 min-h-screen flex flex-col items-center justify-start mt-0">
-            <h1 className="text-3xl font-semibold text-gray-900 my-4">現在位置監視</h1>
-            <input
-                type="text"
-                placeholder="ユーザー名を入力してください"
-                value={userName}
-                onChange={handleUserNameChange}
-                className="border rounded p-2 mb-4"
-            />
-            <LocationButton
-                label={"監視開始"}
-                onClick={startWatching}
-                disabled={!userName} // ユーザー名が空の場合はボタンを無効化
-            />
-            <LocationButton
-                label={"監視停止"}
-                onClick={stopWatching}
-                disabled={!userName} // ユーザー名が空の場合はボタンを無効化
-            />
-            <LocationDisplay latitude={latitude} longitude={longitude} />
-            <p className="text-lg text-gray-700 mt-3">更新回数: {updateCount}</p>
-            <MapContainer center={[latitude || 34.7185884, longitude || 137.854006]} zoom={15} style={{ height: "400px", width: "100%" }}>
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                <h1 className="text-3xl font-semibold text-gray-900 my-4">現在位置監視</h1>
+                <input
+                    type="text"
+                    placeholder="ユーザー名を入力してください"
+                    value={userName}
+                    onChange={handleUserNameChange}
+                    className="border rounded p-2 mb-4"
+                />
+                <LocationButton
+                    label={"監視開始"}
+                    onClick={startWatching}
+                    disabled={!userName}
+                />
+                <LocationButton
+                    label={"監視停止"}
+                    onClick={stopWatching}
+                    disabled={!userName}
+                />
+                <LocationDisplay latitude={latitude} longitude={longitude} />
+                <p className="text-lg text-gray-700 mt-3">更新回数: {updateCount}</p>
+                <GoogleMapsEmbed
+                    apiKey={googleMapsApiKey}
+                    height="100%"
+                    width="100%"
+                    mode="place"
+                    q="Brooklyn+Bridge,New+York,NY"
                     />
-                    {positions.map((position, index) => (
-                        <Marker key={index} position={position}></Marker>
-                    ))}
-                    {positions.length > 1 && <Polyline positions={positions} color="blue" />}
-            </MapContainer>
             </div>
         )
 }

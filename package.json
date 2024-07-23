@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/third-parties": "^15.0.0-canary.77",
     "@react-leaflet/core": "^2.1.0",
+    "@types/googlemaps": "^3.43.3",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "next": "14.2.4",
