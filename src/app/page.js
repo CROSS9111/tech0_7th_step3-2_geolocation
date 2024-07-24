@@ -34,6 +34,7 @@ export default function Home() {
       <LocationButton label={"位置情報取得"} onClick={getLocation} />
       {/* <LocationButton label={"監視開始"} onClick={startWatching} />
       <LocationButton label={"監視停止"} onClick={stopWatching} /> */}
+      test1
       <LocationDisplay latitude={latitude} longitude={longitude} />
     </div>
   );
